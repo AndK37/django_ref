@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="{%url 'students:reg'%}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend><h1>РЕГИСТРАЦИЯ</h1></legend>
+            <input type="text"  id="s" placeholder="Фамилия"">
+            <input type="text"  id="n" placeholder="Имя"">
+            <input type="text"  id="p" placeholder="Отчество"">
+            <input type="date"  id="date"">
+            <select>
+                {%for group in groups%}
+                <option>{{group.name}}</option>
+                {% endfor %}
+            </select>
+            <select>
+                {%for role in roles%}
+                <option>{{role.name}}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        <input type="submit" value="Зарегистрироваться">
+        </form>
+</body>
+
+</html>
