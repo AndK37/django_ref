@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Student, Group, Role
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+        return render(request, "students/index.html")
 
 def student_list(request):
     students = Student.objects.all()
@@ -23,15 +23,17 @@ def group_page(request, group_id):
     return render(request, "students/group_page.html", {'group': group})
 
 def registration(request):
+    if request.method == 'POST':
+        student = Student.objects.create(
+            surname=request.POST.get("s"),
+            name=request.POST.get("n"),
+            patronimyc=request.POST.get("p"),
+            birth_date=request.POST.get("date"),
+            group=Group.objects.filter(name=request.POST.get("g"))[0],
+            role=Role.objects.filter(name=request.POST.get("r"))[0])
+        student.save()
+        return redirect('/')
     groups = Group.objects.all()
     roles = Role.objects.all()
     return render(request, "students/registration.html", {'groups': groups, 'roles': roles})
-# TODO: дописать форму
-def reg(request):
-    student = Student.objects.create(surname=,
-    name=,
-    patronimyc=,
-    birth_date=,
-    group=,
-    role=)
-    student.save()
+
